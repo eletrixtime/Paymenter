@@ -246,6 +246,36 @@ class Settings
                     'type' => 'text',
                     'required' => false,
                 ],
+                [
+                    'name' => 'oauth_authentik',
+                    'label' => 'Authentik Enabled',
+                    'description' => new HtmlString('SSO via <a href="https://goauthentik.io" target="_blank">Authentik</a>. Redirect URL: <code>' . url('/oauth/authentik/callback') . '</code>'),
+                    'type' => 'checkbox',
+                    'database_type' => 'boolean',
+                    'default' => false,
+                    'required' => false,
+                ],
+                [
+                    'name' => 'oauth_authentik_url',
+                    'label' => 'Authentik Base URL',
+                    'type' => 'text',
+                    'required' => false,
+                    'placeholder' => 'https://authentik.example.com',
+                    'description' => 'Base URL of your Authentik instance (without trailing slash).',
+                ],
+                [
+                    'name' => 'oauth_authentik_client_id',
+                    'label' => 'Authentik Client ID',
+                    'type' => 'text',
+                    'required' => false,
+                ],
+                [
+                    'name' => 'oauth_authentik_client_secret',
+                    'label' => 'Authentik Client Secret',
+                    'type' => 'text',
+                    'required' => false,
+                    'encrypted' => true,
+                ],
             ],
             'tax' => [
                 [

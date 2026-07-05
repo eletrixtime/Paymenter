@@ -11,10 +11,6 @@
         :placeholder="__('general.input.password_placeholder')" required hideRequiredIndicator wire:model="password" autocomplete="current-password" />
     <div class="flex flex-row">
         <x-form.checkbox name="remember" label="Remember me" wire:model="remember" />
-        <a class="text-sm text-secondary-500 text-secondary hover:underline ml-auto"
-            href="{{ route('password.request') }}">
-            {{ __('auth.forgot_password') }}
-        </a>
     </div>
 
     <x-captcha :form="'login'" />
@@ -23,7 +19,7 @@
 
     {!! hook('auth.login') !!}
 
-    @if (config('settings.oauth_github') || config('settings.oauth_google') || config('settings.oauth_discord'))
+    @if (config('settings.oauth_github') || config('settings.oauth_google') || config('settings.oauth_discord') || config('settings.oauth_authentik'))
     <div class="flex flex-col items-center mt-4">
         <div class="my-5 flex items-center w-full">
             <span aria-hidden="true" class="h-0.5 grow rounded bg-primary-700"></span>
@@ -43,16 +39,21 @@
             </a>
             @endif
             @endforeach
+
+            @if (config('settings.oauth_authentik'))
+            <a href="{{ route('oauth.redirect', 'authentik') }}"
+                id="btn-sso-authentik"
+                class="flex items-center justify-center px-4 h-10 border border-neutral rounded-md text-primary-100 hover:bg-primary-700 transition-colors">
+                {{-- Authentik logo inline SVG --}}
+                <svg class="size-5 mr-2" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                    <path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2z" fill="#FD4B2D"/>
+                    <path d="M16.5 8.5l-4.5 3-4.5-3v7l4.5 3 4.5-3v-7z" fill="#fff"/>
+                </svg>
+                Authentik
+            </a>
+            @endif
         </div>
     </div>
     @endif
-    @if(!config('settings.registration_disabled', false))
-    <div class="text-base text-center rounded-md py-2 mt-6 text-sm">
-        {{ __('auth.dont_have_account') }}
-        <a class="text-sm text-secondary-500 text-secondary hover:underline" href="{{ route('register') }}"
-            wire:navigate>
-            {{ __('auth.sign_up') }}
-        </a>
-    </div>
-    @endif
+
 </form>

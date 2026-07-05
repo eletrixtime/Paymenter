@@ -23,10 +23,16 @@ Route::get('/', Home::class)->name('home');
 Route::group(['middleware' => ['web', 'guest']], function () {
     Route::get('/login', Auth\Login::class)->name('login');
     Route::get('/2fa', Auth\Tfa::class)->name('2fa');
-    Route::get('/register', Auth\Register::class)->name('register');
-    // Todo
-    Route::get('/password/request', Auth\Password\Request::class)->name('password.request');
-    Route::get('/password/reset/{token}', Auth\Password\Reset::class)->name('password.reset');
+    Route::get('/register', function () {
+        abort(404);
+    })->name('register');
+    // Password reset disabled
+    Route::get('/password/request', function () {
+        abort(404);
+    })->name('password.request');
+    Route::get('/password/reset/{token}', function () {
+        abort(404);
+    })->name('password.reset');
 
     Route::get('/oauth/{provider}', [SocialLoginController::class, 'redirect'])->name('oauth.redirect');
     Route::get('/oauth/{provider}/callback', [SocialLoginController::class, 'handle'])->name('oauth.handle');

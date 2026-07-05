@@ -48,6 +48,13 @@ class Login extends Component
             return;
         }
 
+        // Only admin users (with a role) can use built-in login
+        if (is_null($user->role_id)) {
+            $this->addError('email', __('auth.failed'));
+
+            return;
+        }
+
         // Check 2FA
         if ($user->tfa_secret) {
             Session::put('2fa', [
